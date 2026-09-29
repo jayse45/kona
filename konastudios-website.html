@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KONASTUDIOS — Photography &amp; Film</title>
+<meta name="description" content="KonaStudios — GPA Wedding Photographer of the Year 2022. Weddings, corporate, product, portrait &amp; memorial photography.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#17140f;
+    --ink-2:#211c15;
+    --paper:#f4ede0;
+    --paper-dim:#cfc6b4;
+    --brass:#c9a05e;
+    --brass-dim:#8a7248;
+    --moss:#4c5a44;
+    --line: rgba(244,237,224,0.14);
+    --line-strong: rgba(244,237,224,0.28);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Inter',sans-serif;
+    font-weight:300;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--brass);color:var(--ink);}
+  a{color:inherit;text-decoration:none;}
+  img{display:block;width:100%;height:100%;object-fit:cover;}
+
+  h1,h2,h3,.serif{font-family:'Fraunces',serif;}
+  .mono{font-family:'Space Mono',monospace;}
+
+  .eyebrow{
+    font-family:'Space Mono',monospace;
+    font-size:0.7rem;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--brass);
+  }
+
+  .wrap{max-width:1320px;margin:0 auto;padding:0 6vw;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+  }
+
+  /* ---------- Aperture scroll indicator ---------- */
+  .aperture{
+    position:fixed;
+    right:28px;
+    bottom:28px;
+    width:56px;
+    height:56px;
+    z-index:60;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    mix-blend-mode: difference;
+  }
+  .aperture svg{width:100%;height:100%;transform:rotate(-90deg);}
+  .aperture circle{
+    fill:none;
+    stroke:var(--paper);
+    stroke-width:1;
+    opacity:0.35;
+  }
+  .aperture .fill{
+    stroke:var(--brass);
+    opacity:1;
+    stroke-dasharray:150.8;
+    stroke-dashoffset:150.8;
+    transition:stroke-dashoffset .1s linear;
+  }
+  .aperture .f-stop{
+    position:absolute;
+    font-family:'Space Mono',monospace;
+    font-size:0.55rem;
+    color:var(--paper);
+  }
+
+  /* ---------- Nav ---------- */
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:26px 6vw;
+  }
+  .wordmark{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    font-size:1.05rem;
+    letter-spacing:0.06em;
+    mix-blend-mode:difference;
+  }
+  .wordmark img{width:auto;height:52px;object-fit:contain;}
+  .wordmark span{color:var(--brass);}
+  nav ul{list-style:none;display:flex;gap:34px;}
+  nav a{
+    font-size:0.72rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    font-family:'Space Mono',monospace;
+    opacity:0.85;
+    position:relative;
+    mix-blend-mode:difference;
+  }
+  nav a::after{
+    content:'';
+    position:absolute;left:0;bottom:-5px;
+    width:0;height:1px;background:var(--paper);
+    transition:width .3s ease;
+  }
+  nav a:hover::after{width:100%;}
+  .nav-toggle{display:none;background:none;border:none;color:var(--paper);font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:.1em;cursor:pointer;mix-blend-mode:difference;}
+  .nav-toggle.is-open{mix-blend-mode:normal;}
+
+  @media (max-width:820px){
+    nav ul{
+      display:none;
+      position:fixed;
+      top:78px;left:6vw;right:6vw;
+      flex-direction:column;
+      gap:18px;
+      background:var(--ink);
+      border:1px solid var(--line-strong);
+      padding:24px;
+      z-index:55;
+    }
+    nav ul.is-open{display:flex;}
+    nav a{mix-blend-mode:normal;opacity:1;}
+    .nav-toggle{display:block;}
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    height:100svh;
+    min-height:640px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    overflow:hidden;
+    border-bottom:1px solid var(--line);
+  }
+  .hero-media{
+    position:absolute;inset:0;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+  }
+  .hero-media img{
+    filter:grayscale(35%) brightness(0.62) contrast(1.05);
+    transform:scale(1.04);
+  }
+  .hero::after{
+    content:'';
+    position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(23,20,15,0.15) 0%, rgba(23,20,15,0.35) 55%, rgba(23,20,15,0.96) 100%);
+  }
+  .hero-content{
+    position:relative;z-index:2;
+    padding:0 6vw 64px;
+  }
+  .hero-frame-count{
+    font-family:'Space Mono',monospace;
+    font-size:0.72rem;
+    letter-spacing:.2em;
+    color:var(--brass);
+    margin-bottom:18px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .hero-frame-count::before{content:'●';font-size:0.5rem;color:#c4523f;}
+  .hero h1{
+    font-size:clamp(3rem, 9vw, 8rem);
+    line-height:0.92;
+    font-weight:500;
+    letter-spacing:-0.01em;
+  }
+  .hero h1 em{
+    font-style:italic;
+    font-weight:400;
+    color:var(--brass);
+  }
+  .hero-sub{
+    margin-top:22px;
+    max-width:520px;
+    font-size:1rem;
+    line-height:1.6;
+    color:var(--paper-dim);
+    display:flex;
+    gap:28px;
+    flex-wrap:wrap;
+    align-items:baseline;
+  }
+  .hero-award{
+    font-family:'Space Mono',monospace;
+    font-size:0.68rem;
+    letter-spacing:.08em;
+    color:var(--paper);
+    border:1px solid var(--line-strong);
+    padding:9px 14px;
+  }
+  .scroll-cue{
+    position:absolute;left:6vw;bottom:26px;z-index:2;
+    writing-mode:vertical-rl;
+    font-family:'Space Mono',monospace;
+    font-size:0.65rem;
+    letter-spacing:.18em;
+    color:var(--paper-dim);
+    display:flex;align-items:center;gap:10px;
+  }
+  .scroll-cue .line{width:1px;height:46px;background:var(--line-strong);position:relative;overflow:hidden;}
+  .scroll-cue .line::after{content:'';position:absolute;top:0;left:0;width:100%;height:14px;background:var(--brass);animation:travel 2.4s ease-in-out infinite;}
+  @keyframes travel{0%{top:-14px}100%{top:46px}}
+
+  /* ---------- Section shell ---------- */
+  section{position:relative;padding:110px 0;}
+  .section-head{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    gap:40px;margin-bottom:56px;flex-wrap:wrap;
+    border-bottom:1px solid var(--line);
+    padding-bottom:26px;
+  }
+  .section-head h2{
+    font-size:clamp(2.1rem,4.4vw,3.4rem);
+    font-weight:500;
+    line-height:1.02;
+  }
+  .section-head p{
+    max-width:340px;
+    font-size:0.92rem;
+    color:var(--paper-dim);
+    line-height:1.6;
+  }
+
+  /* ---------- Manifesto / About ---------- */
+  .manifesto{display:grid;grid-template-columns:0.9fr 1.1fr;gap:70px;align-items:center;}
+  .manifesto-text p{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(1.4rem,2.6vw,2.05rem);
+    line-height:1.45;
+    color:var(--paper);
+  }
+  .manifesto-text .accent{color:var(--brass);font-style:normal;}
+  .manifesto-meta{
+    margin-top:38px;
+    display:flex;gap:40px;
+    font-family:'Space Mono',monospace;
+    font-size:0.72rem;
+    color:var(--paper-dim);
+    flex-wrap:wrap;
+  }
+  .manifesto-meta div span{display:block;color:var(--brass);font-size:1.6rem;font-family:'Fraunces',serif;font-weight:500;margin-bottom:4px;}
+  .manifesto-media{position:relative;aspect-ratio:4/5;border:1px solid var(--line-strong);}
+  .manifesto-media img{filter:grayscale(20%) contrast(1.05);}
+  .manifesto-media .tag{
+    position:absolute;bottom:-1px;left:-1px;
+    background:var(--ink);
+    border:1px solid var(--line-strong);
+    padding:8px 12px;
+    font-family:'Space Mono',monospace;
+    font-size:0.62rem;
+    letter-spacing:.06em;
+    color:var(--brass);
+  }
+
+  @media (max-width:900px){
+    .manifesto{grid-template-columns:1fr;}
+    .manifesto-media{order:-1;max-width:420px;}
+  }
+
+  /* ---------- Services / shot list ---------- */
+  .shotlist{border-top:1px solid var(--line);}
+  .shot{
+    display:grid;
+    grid-template-columns:90px 1fr auto;
+    gap:26px;
+    align-items:center;
+    padding:26px 0;
+    border-bottom:1px solid var(--line);
+    transition:background .3s ease;
+    position:relative;
+  }
+  .shot:hover{background:rgba(201,160,94,0.05);}
+  .shot-code{font-family:'Space Mono',monospace;color:var(--brass-dim);font-size:0.8rem;}
+  .shot-name{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    font-size:clamp(1.4rem,3vw,2.3rem);
+  }
+  .shot-desc{
+    font-size:0.85rem;
+    color:var(--paper-dim);
+    max-width:420px;
+    margin-top:6px;
+    line-height:1.55;
+  }
+  .shot-exif{
+    font-family:'Space Mono',monospace;
+    font-size:0.68rem;
+    color:var(--paper-dim);
+    text-align:right;
+    white-space:nowrap;
+  }
+  @media (max-width:700px){
+    .shot{grid-template-columns:50px 1fr;}
+    .shot-exif{grid-column:1/-1;text-align:left;margin-top:6px;}
+  }
+
+  /* ---------- Gallery / contact sheet ---------- */
+  .contact-sheet{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    grid-auto-rows:14vw;
+    gap:2px;
+    background:var(--line);
+    border:1px solid var(--line-strong);
+  }
+  .frame{
+    position:relative;
+    overflow:hidden;
+    background:var(--ink-2);
+    cursor:pointer;
+  }
+  .frame img{transition:transform .7s cubic-bezier(.2,.8,.2,1);}
+  .frame:hover img{transform:scale(1.07);}
+  .frame .frame-tag{
+    position:absolute;top:8px;left:8px;
+    font-family:'Space Mono',monospace;
+    font-size:0.6rem;
+    color:var(--paper);
+    background:rgba(23,20,15,0.55);
+    padding:3px 7px;
+    letter-spacing:.05em;
+    opacity:0;
+    transition:opacity .3s ease;
+  }
+  .frame:hover .frame-tag{opacity:1;}
+  .frame.tall{grid-row:span 2;}
+  .frame.wide{grid-column:span 2;}
+
+  @media (max-width:900px){
+    .contact-sheet{grid-template-columns:repeat(3,1fr);grid-auto-rows:26vw;}
+    .frame.wide{grid-column:span 2;}
+  }
+  @media (max-width:560px){
+    .contact-sheet{grid-template-columns:repeat(2,1fr);grid-auto-rows:38vw;}
+    .frame.wide{grid-column:span 2;}
+    .frame.tall{grid-row:span 1;}
+  }
+
+  .sheet-note{
+    margin-top:18px;
+    font-family:'Space Mono',monospace;
+    font-size:0.65rem;
+    color:var(--paper-dim);
+    letter-spacing:.04em;
+  }
+
+  /* ---------- Reel / Video section ---------- */
+  .reel-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:2px;
+    background:var(--line);
+    border:1px solid var(--line-strong);
+  }
+  .reel-card{
+    position:relative;
+    aspect-ratio:9/13;
+    background:var(--ink-2);
+    overflow:hidden;
+  }
+  .reel-card img{filter:grayscale(60%) brightness(0.45);}
+  .reel-card .sprocket{
+    position:absolute;top:0;bottom:0;width:14px;
+    background-image:repeating-linear-gradient(180deg, transparent 0 10px, rgba(244,237,224,0.5) 10px 14px, transparent 14px 24px);
+    opacity:0.5;
+  }
+  .reel-card .sprocket.left{left:0;}
+  .reel-card .sprocket.right{right:0;}
+  .reel-play{
+    position:absolute;inset:0;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+    z-index:2;
+    pointer-events:none;
+    opacity:0;
+    transition:opacity .3s ease;
+  }
+  .reel-card:hover .reel-play{
+    opacity:1;
+  }
+  .play-btn{
+    width:56px;height:56px;border-radius:50%;
+    border:1px solid var(--paper);
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .3s ease, background .3s ease;
+  }
+  .play-btn::after{
+    content:'';
+    width:0;height:0;
+    border-top:8px solid transparent;
+    border-bottom:8px solid transparent;
+    border-left:13px solid var(--paper);
+    margin-left:3px;
+  }
+  .reel-card:hover .play-btn{transform:scale(1.1);background:rgba(244,237,224,0.08);}
+  .reel-label{
+    font-family:'Space Mono',monospace;
+    font-size:0.66rem;
+    letter-spacing:.08em;
+    color:var(--paper-dim);
+    text-align:center;
+    padding:0 20px;
+  }
+  .reel-tag{
+    position:absolute;top:14px;left:22px;
+    font-family:'Space Mono',monospace;
+    font-size:0.6rem;
+    color:var(--brass);
+    letter-spacing:.1em;
+    z-index:2;
+  }
+  .reel-runtime{
+    position:absolute;bottom:14px;right:22px;
+    font-family:'Space Mono',monospace;
+    font-size:0.6rem;
+    color:var(--paper-dim);
+    z-index:2;
+  }
+  @media (max-width:800px){
+    .reel-grid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (max-width:520px){
+    .reel-grid{grid-template-columns:1fr;}
+  }
+
+  /* ---------- Packages ---------- */
+  .packages{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line-strong);
+  }
+  .package{
+    background:var(--ink);
+    padding:44px 34px;
+    display:flex;flex-direction:column;
+  }
+  .package.gold{background:var(--ink-2);}
+  .pkg-eyebrow{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;}
+  .pkg-eyebrow .swatch{width:10px;height:10px;border-radius:50%;}
+  .package.silver .swatch{background:#b9bfc4;}
+  .package.gold .swatch{background:var(--brass);}
+  .package.diamond .swatch{background:#8fd3d6;}
+  .pkg-name{font-family:'Fraunces',serif;font-weight:500;font-size:1.7rem;margin-bottom:18px;}
+  .pkg-list{list-style:none;font-size:0.86rem;color:var(--paper-dim);line-height:2;flex:1;}
+  .pkg-list li{padding-left:18px;position:relative;}
+  .pkg-list li::before{content:'—';position:absolute;left:0;color:var(--brass-dim);}
+  .pkg-cta{
+    margin-top:28px;
+    font-family:'Space Mono',monospace;
+    font-size:0.68rem;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    padding-bottom:4px;
+    border-bottom:1px solid var(--line-strong);
+    display:inline-block;
+    width:fit-content;
+  }
+  @media (max-width:820px){.packages{grid-template-columns:1fr;}}
+
+  /* ---------- Booking CTA ---------- */
+  .booking{
+    background:var(--paper);
+    color:var(--ink);
+    border-radius:2px;
+    position:relative;
+    overflow:hidden;
+    padding:90px 6vw;
+    text-align:center;
+  }
+  .booking .eyebrow{color:var(--moss);}
+  .booking h2{
+    font-size:clamp(2.3rem,6vw,4.6rem);
+    font-weight:500;
+    line-height:1.02;
+    max-width:900px;
+    margin:18px auto 34px;
+  }
+  .booking h2 em{color:var(--moss);font-style:italic;font-weight:400;}
+  .btn{
+    display:inline-flex;align-items:center;gap:12px;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Space Mono',monospace;
+    font-size:0.78rem;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    padding:18px 30px;
+    border:1px solid var(--ink);
+    transition:background .3s ease, color .3s ease;
+  }
+  .btn:hover{background:transparent;color:var(--ink);}
+  .btn .arrow{transition:transform .3s ease;}
+  .btn:hover .arrow{transform:translateX(4px);}
+  .booking-sub{
+    margin-top:22px;
+    font-size:0.82rem;
+    color:#5b5648;
+  }
+
+  /* ---------- Footer ---------- */
+  footer{padding:70px 0 40px;border-top:1px solid var(--line);}
+  .footer-top{
+    display:flex;justify-content:space-between;align-items:flex-start;
+    flex-wrap:wrap;gap:40px;
+    padding-bottom:50px;
+  }
+  .footer-links{display:flex;gap:60px;flex-wrap:wrap;}
+  .footer-col h4{
+    font-family:'Space Mono',monospace;
+    font-size:0.68rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--brass);
+    margin-bottom:14px;
+  }
+  .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
+  .footer-col a{font-size:0.88rem;color:var(--paper-dim);}
+  .footer-col a:hover{color:var(--paper);}
+  .footer-bottom{
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;
+    padding-top:26px;border-top:1px solid var(--line);
+    font-family:'Space Mono',monospace;
+    font-size:0.68rem;
+    color:var(--paper-dim);
+  }
+
+  .fade-up{opacity:0;transform:translateY(26px);transition:opacity .8s ease, transform .8s ease;}
+  .fade-up.in{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<div class="aperture" aria-hidden="true">
+  <svg viewBox="0 0 56 56">
+    <circle cx="28" cy="28" r="24"></circle>
+    <circle class="fill" cx="28" cy="28" r="24"></circle>
+  </svg>
+  <div class="f-stop" id="fstop">f/16</div>
+</div>
+
+<header>
+  <a href="#top" class="wordmark"><img src="./img/logo-w.png" alt="KONA STUDIO"></a>
+  <nav>
+    <ul>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#reel">Reel</a></li>
+      <li><a href="#packages">Packages</a></li>
+      <li><a href="#book">Book</a></li>
+    </ul>
+  </nav>
+  <button class="nav-toggle" aria-label="Menu">MENU</button>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero" style="padding-top:0;">
+    <div class="hero-media">
+      <img src="./img/img-1.jpg" alt="">
+      <img src="./img/img-2.jpg" alt="">
+      <img src="./img/img-14.jpeg" alt="">
+      <img src="./img/img-4.jpeg" alt="">
+    </div>
+    <div class="scroll-cue">SCROLL <div class="line"></div></div>
+    <div class="hero-content">
+      <div class="hero-frame-count">REC · GHANA · EST. FRAME NO. 001</div>
+      <h1>Every vow,<br><em>held</em> in light.</h1>
+      <div class="hero-sub">
+        <p>KonaStudios documents weddings, corporate milestones, product launches and quiet family moments — shot on instinct, delivered with intention.</p>
+        <div class="hero-award">GPA WEDDING PHOTOGRAPHER<br>OF THE YEAR — 2022</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MANIFESTO -->
+  <section class="manifesto wrap fade-up" id="about">
+    <div class="manifesto-text">
+      <p>We don't direct a day — <span class="accent">we follow it.</span> The bridal dress-up before sunrise, the hand squeezed under the table at the reception, the version of your logo that only exists for ninety minutes on a product set. <span class="accent">That's the frame we're waiting for.</span></p>
+      <div class="manifesto-meta">
+        <div><span>190+</span>Shoots delivered</div>
+        <div><span>2022</span>GPA Photographer of the Year</div>
+        <div><span>5</span>Disciplines covered</div>
+      </div>
+    </div>
+    <div class="manifesto-media">
+      <img src="./img/img-14.jpeg" alt="">
+      <div class="tag">FRAME 014 · KONASTUDIOS</div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="wrap">
+      <div class="section-head fade-up">
+        <h2>What we<br>shoot.</h2>
+        <p>Five disciplines, one eye. Every booking starts with the same question — what does this day actually feel like?</p>
+      </div>
+      <div class="shotlist fade-up">
+        <div class="shot">
+          <div class="shot-code">01</div>
+          <div>
+            <div class="shot-name">Weddings</div>
+            <div class="shot-desc">Full-day coverage from bridal dress-up through the last dance. Silver, Gold &amp; Diamond packages available.</div>
+          </div>
+          <div class="shot-exif">50mm · f/1.8 · GOLDEN HOUR</div>
+        </div>
+        <div class="shot">
+          <div class="shot-code">02</div>
+          <div>
+            <div class="shot-name">Corporate Events</div>
+            <div class="shot-desc">Conferences, launches, and company milestones — documented for press and internal use alike.</div>
+          </div>
+          <div class="shot-exif">35mm · f/4 · AVAILABLE LIGHT</div>
+        </div>
+        <div class="shot">
+          <div class="shot-code">03</div>
+          <div>
+            <div class="shot-name">Product Shoots</div>
+            <div class="shot-desc">Studio and on-location product photography built for catalogues, campaigns and social.</div>
+          </div>
+          <div class="shot-exif">100mm MACRO · f/8 · STROBE</div>
+        </div>
+        <div class="shot">
+          <div class="shot-code">04</div>
+          <div>
+            <div class="shot-name">Portrait Photoshoots</div>
+            <div class="shot-desc">Personal, family and editorial portrait sessions — in-studio or on location.</div>
+          </div>
+          <div class="shot-exif">85mm · f/2 · SOFTBOX</div>
+        </div>
+        <div class="shot">
+          <div class="shot-code">05</div>
+          <div>
+            <div class="shot-name">Memorial Services</div>
+            <div class="shot-desc">Respectful, discreet coverage of funerals and memorial services for families who want the day held with care.</div>
+          </div>
+          <div class="shot-exif">35mm · f/2.8 · NATURAL LIGHT</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="work">
+    <div class="wrap">
+      <div class="section-head fade-up">
+        <h2>Contact<br>sheet.</h2>
+        <p>A working selection. Swap every frame below for KonaStudios' own work — see the note beneath the sheet.</p>
+      </div>
+      <div class="contact-sheet fade-up">
+        <div class="frame tall wide"><img src="./img/img-1.jpg" alt=""><div class="frame-tag">001 · WEDDING</div></div>
+        <div class="frame"><img src="./img/img-2.JPG" alt=""><div class="frame-tag">002 · PORTRAIT</div></div>
+        <div class="frame"><img src="./img/img-3.jpeg" alt=""><div class="frame-tag">003 · DETAIL</div></div>
+        <div class="frame tall"><img src="./img/img-4.jpeg" alt=""><div class="frame-tag">004 · CORPORATE</div></div>
+        <div class="frame"><img src="./img/img-5.jpeg" alt=""><div class="frame-tag">005 · PRODUCT</div></div>
+        <div class="frame wide"><img src="./img/img-6.jpeg" alt=""><div class="frame-tag">006 · RECEPTION</div></div>
+        <div class="frame"><img src="./img/img-7.jpeg" alt=""><div class="frame-tag">007 · PORTRAIT</div></div>
+        <div class="frame tall"><img src="./img/img-8.jpeg" alt=""><div class="frame-tag">008 · WEDDING</div></div>
+        <div class="frame"><img src="./img/img-9.jpeg" alt=""><div class="frame-tag">009 · DETAIL</div></div>
+        <div class="frame"><img src="./img/img-10.jpeg" alt=""><div class="frame-tag">010 · PRODUCT</div></div>
+        <div class="frame wide"><img src="./img/img-11.jpeg" alt=""><div class="frame-tag">011 · CORPORATE</div></div>
+        <div class="frame"><img src="./img/img-12.jpeg" alt=""><div class="frame-tag">012 · PORTRAIT</div></div>
+      </div>
+      
+    </div>
+  </section>
+
+  <!-- REEL / VIDEO -->
+  <section id="reel">
+    <div class="wrap">
+      <div class="section-head fade-up">
+        <h2>The<br>reel.</h2>
+        <p>Motion placeholders — drop in highlight films, behind-the-scenes clips or Instagram Reels exports here.</p>
+      </div>
+      <div class="reel-grid fade-up">
+        <div class="reel-card">
+          <div class="sprocket left"></div><div class="sprocket right"></div>
+          <video src="./img/IMG_4430.mp4" poster="./img/img-15.jpeg" ></video>
+          <div class="reel-tag">REEL 01</div>
+          <div class="reel-runtime">03:14</div>
+          <div class="reel-play">
+            <div class="play-btn"></div>
+            <div class="reel-label">Wedding Highlight Film<br>— add video</div>
+          </div>
+        </div>
+        <div class="reel-card">
+          <div class="sprocket left"></div><div class="sprocket right"></div>
+          <video src="./img/IMG_4867.mp4" poster="./img/img-13.jpeg" ></video>
+          <div class="reel-tag">REEL 02</div>
+          <div class="reel-runtime">00:42</div>
+          <div class="reel-play">
+            <div class="play-btn"></div>
+            <div class="reel-label">Behind the Scenes<br>— add video</div>
+          </div>
+        </div>
+        <div class="reel-card">
+          <div class="sprocket left"></div><div class="sprocket right"></div>
+          <video src="./img/IMG_539711.mp4" poster="./img/img-12.jpeg" ></video>
+          <div class="reel-tag">REEL 03</div>
+          <div class="reel-runtime">01:08</div>
+          <div class="reel-play">
+            <div class="play-btn"></div>
+            <div class="reel-label">Corporate Recap<br>— add video</div>
+          </div>
+        </div>
+      </div>
+      
+      <!--
+        TO ADD A REAL VIDEO: replace the <img> inside .reel-card with either:
+        <video src="your-video.mp4" poster="thumbnail.jpg" controls></video>
+        or an iframe embed (YouTube/Vimeo/Instagram) sized to fill .reel-card.
+      -->
+    </div>
+  </section>
+
+  <!-- PACKAGES -->
+  <section id="packages">
+    <div class="wrap">
+      <div class="section-head fade-up">
+        <h2>Wedding<br>packages.</h2>
+        <p>Every package includes bridal dress-up, full event coverage and the reception. Pricing on request via the booking form.</p>
+      </div>
+      <div class="packages fade-up">
+        <div class="package silver">
+          <div class="pkg-eyebrow"><span class="mono" style="font-size:.68rem;letter-spacing:.1em;">SILVER</span><span class="swatch"></span></div>
+          <div class="pkg-name">The Essential</div>
+          <ul class="pkg-list">
+            <li>Bridal dress-up coverage</li>
+            <li>Full event &amp; reception coverage</li>
+            <li>All soft copies on pen drive</li>
+            
+          </ul>
+          <a href="#book" class="pkg-cta">Enquire →</a>
+        </div>
+        <div class="package gold">
+          <div class="pkg-eyebrow"><span class="mono" style="font-size:.68rem;letter-spacing:.1em;">GOLD</span><span class="swatch"></span></div>
+          <div class="pkg-name">The Signature</div>
+          <ul class="pkg-list">
+            <li>Bridal dress-up coverage</li>
+            <li>Full event &amp; reception coverage</li>
+            <li>All soft copies on pen drive</li>
+            
+            <li>1 framed print</li>
+          </ul>
+          <a href="#book" class="pkg-cta">Enquire →</a>
+        </div>
+        <div class="package diamond">
+          <div class="pkg-eyebrow"><span class="mono" style="font-size:.68rem;letter-spacing:.1em;">DIAMOND</span><span class="swatch"></span></div>
+          <div class="pkg-name">The Archive</div>
+          <ul class="pkg-list">
+            <li>Bridal dress-up coverage</li>
+            <li>Full event &amp; reception coverage</li>
+            <li>All soft copies on pen drive</li>
+            
+            <li>2 framed prints</li>
+          </ul>
+          <a href="#book" class="pkg-cta">Enquire →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOKING -->
+  <section id="book">
+    <div class="wrap">
+      <div class="booking fade-up">
+        <div class="eyebrow">FRAME 099 · BOOKING</div>
+        <h2>Got a date in mind?<br><em>Let's shoot it properly.</em></h2>
+        <a class="btn" href="https://wa.link/kudd2l" target="_blank" rel="noopener">
+          Book KonaStudios <span class="arrow">→</span>
+        </a>
+        <div class="booking-sub">Weddings · Corporate · Product · Photoshoots · Memorial services</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <a href="#top" class="wordmark">KONA<span>STUDIOS</span></a>
+        <p style="margin-top:14px;max-width:280px;color:var(--paper-dim);font-size:0.85rem;line-height:1.6;">Making your vision our mission. Based in Ghana, shooting wherever the story is.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Studio</h4>
+          <ul>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#packages">Packages</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="https://www.instagram.com/konastudios" target="_blank" rel="noopener">Instagram — @konastudios</a></li>
+            <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSeUkG5MRDxvr9kAod6v2sQfE7oHZ8scRVu8q4457emZAnNuuQ/viewform" target="_blank" rel="noopener">Booking Form</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 KONASTUDIOS PHOTOGRAPHY</span>
+      <span>GPA WEDDING PHOTOGRAPHER OF THE YEAR — 2022</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Aperture scroll progress
+  const fillCircle = document.querySelector('.aperture .fill');
+  const fstop = document.getElementById('fstop');
+  const circumference = 150.8;
+  const stops = ['f/1.4','f/2','f/2.8','f/4','f/5.6','f/8','f/11','f/16','f/22'];
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight);
+    const offset = circumference - (scrolled * circumference);
+    fillCircle.style.strokeDashoffset = Math.max(0, offset);
+    const idx = Math.min(stops.length - 1, Math.floor(scrolled * stops.length));
+    fstop.textContent = stops[idx];
+  });
+
+  // Fade-up reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Mobile nav toggle
+  const toggle = document.querySelector('.nav-toggle');
+  const navList = document.querySelector('nav ul');
+  toggle?.addEventListener('click', () => {
+    const nowOpen = navList.classList.toggle('is-open');
+    toggle.classList.toggle('is-open', nowOpen);
+    toggle.textContent = nowOpen ? 'CLOSE' : 'MENU';
+  });
+  navList?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navList.classList.remove('is-open');
+    toggle.classList.remove('is-open');
+    toggle.textContent = 'MENU';
+  }));
+</script>
+
+</body>
+</html>
